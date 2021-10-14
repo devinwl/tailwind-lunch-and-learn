@@ -1,0 +1,7 @@
+- "We need dark mode support!"
+  - Tailwind has your back. It's as simple as adding `darkMode: 'media'` to the Tailwind config. This adds a new variant called `dark` that will trigger the corresponding class when the user has dark mode enabled. Here is an example.
+  - This `div` has black text normally, but dark mode turns it to white. This might be different than what you would normally expect dark mode to be. It requires specifying the behaviour for each component, rather than a catch-all utility class (like `body-text`) that changes behaviour itself.
+  - Note: There is an option to enable dark mode via a class instead.
+- "I want to use a class when this is hovered and is focused and while in dark mode!"
+  - Have I got good news for you! Tailwind supports variant stacking. Check it out!
+  - This is powerful. Multiple variants can be combined for specific behaviour targets.

@@ -1,57 +1,131 @@
-export default function Home() {
+import React from "react";
+import classnames from "classnames";
+import { serialize } from "next-mdx-remote/serialize";
+import { MDXRemote, MDXRemoteSerializeResult } from "next-mdx-remote";
+import fs from "fs";
+import path from "path";
+
+import Code from "../components/Code";
+
+interface SlideProps {
+  children: React.ReactNode;
+}
+
+interface MDX {
+  source: MDXRemoteSerializeResult;
+}
+
+interface Props {
+  notes: MDX[];
+  slides: MDX[];
+}
+
+const Slide = ({ children }: SlideProps) => {
+  const classes = classnames(
+    "absolute",
+    "bg-white",
+    "flex",
+    "items-center",
+    "px-24",
+    "w-full",
+    "h-full"
+  );
+  return <div className={classes}>{children}</div>;
+};
+
+const components = {
+  code: Code,
+};
+
+export default function Index({ notes, slides }: Props) {
+  const totalSlides = slides.length;
+  const [activeSlide, setActiveSlide] = React.useState(0);
+
+  const advanceSlide = () => {
+    if (activeSlide == totalSlides - 1) {
+      setActiveSlide(0);
+    } else {
+      setActiveSlide(activeSlide + 1);
+    }
+  };
+
+  const unadvanceSlide = () => {
+    if (activeSlide === 0) {
+      setActiveSlide(totalSlides - 1);
+    } else {
+      setActiveSlide(activeSlide - 1);
+    }
+  };
+
   return (
-    <div className="bg-gray-100 flex items-center justify-center h-full">
-      <form className="bg-white rounded-md shadow-2xl flex flex-col">
-        <div className="px-8 pt-8">
-          <div className="pb-4">
-            Welcome to <strong>Zombo.com</strong>. Please log in.
-          </div>
-          <div className="flex flex-col pb-4">
-            <label className="sr-only pl-2" htmlFor="username">
-              Username
-            </label>
-            <input
-              className="p-2 border rounded-md"
-              type="text"
-              id="username"
-              placeholder="Enter username"
+    <div className="grid grid-cols-12 h-full">
+      <div className="col-span-9">
+        <Slide>
+          <div className="prose">
+            <MDXRemote
+              components={components}
+              {...slides[activeSlide].source}
             />
           </div>
-          <div className="flex flex-col pb-4">
-            <label className="sr-only pl-2" htmlFor="password">
-              Password
-            </label>
-            <input
-              className="p-2 border rounded-md"
-              type="password"
-              id="password"
-              placeholder="Enter password"
-            />
-          </div>
-        </div>
-        <div className="divide-y">
-          <div className="flex flex-col px-8">
-            <input
-              className="bg-indigo-700 hover:bg-indigo-800 active:bg-indigo-900 text-white rounded-md flex-grow py-2 px-4 cursor-pointer"
-              type="submit"
-              value="Login"
-            />
-            <div className="pt-4 mb-4 text-center">
-              <a className="text-indigo-700" href="#">
-                I forgot my password
-              </a>
-            </div>
-          </div>
-          <div className="p-6 text-center bg-gray-50 rounded-b-md">
-            <a
-              className="bg-green-700 py-2 px-4 rounded-md text-white"
-              href="#"
+        </Slide>
+      </div>
+      <div className="col-span-3 bg-gray-100 isolate overflow-auto">
+        <div className="flex flex-col">
+          <div className="flex justify-between p-3 sticky top-0 z-10 bg-gray-100 shadow-2xl">
+            <button
+              className="bg-indigo-700 text-white px-4 py-1 rounded-md"
+              onClick={advanceSlide}
             >
-              Create new account
-            </a>
+              Advance
+            </button>
+            <div className="text-gray-500 justify-self-center self-center">
+              {activeSlide + 1}
+            </div>
+            <button
+              className="bg-red-700 text-white px-4 py-1 rounded-md"
+              onClick={unadvanceSlide}
+            >
+              Unadvance
+            </button>
+          </div>
+          <div className="prose px-3">
+            <MDXRemote components={components} {...notes[activeSlide].source} />
           </div>
         </div>
-      </form>
+      </div>
     </div>
   );
+}
+
+async function getFilesAsMDX(contentDirectory: string) {
+  const filetype = [".mdx"];
+  const filesPath = path.join(process.cwd(), contentDirectory);
+  const allFiles = fs
+    .readdirSync(filesPath)
+    .filter((file) => filetype.includes(path.extname(file)));
+  const content = await Promise.all(
+    allFiles.map(async (fileName) => {
+      const filePath = path.join(filesPath, fileName);
+      const file = fs.readFileSync(filePath, { encoding: "utf-8" });
+      const source = await serialize(file);
+
+      return {
+        source,
+      };
+    })
+  );
+
+  return content;
+}
+
+export async function getStaticProps() {
+  const slides = await getFilesAsMDX("slides");
+  const notes = await getFilesAsMDX("notes");
+
+  return {
+    props: {
+      notes,
+      slides,
+    },
+  };
 }

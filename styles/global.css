@@ -7,3 +7,67 @@ body,
 #__next {
   height: 100%;
 }
+
+html {
+  font-size: 32px;
+}
+
+pre {
+  white-space: break-spaces;
+}
+
+.prose pre > pre {
+  margin: 0 !important;
+  padding: 0;
+}
+
+/* Weird hack because PrismJS keeps adding blank lines */
+.token-line:last-child > .token.plain {
+  display: none;
+}
+
+.token.tag {
+  @apply text-red-400;
+}
+
+.token.plain {
+  @apply text-white;
+}
+
+.token.tag.punctuation,
+.token.punctuation {
+  @apply text-pink-500;
+}
+
+.token.tag.attr-value {
+  @apply text-green-300;
+}
+
+.token.tag.attr-name,
+.token.tag.attr-value.punctuation.attr-equals {
+  @apply text-purple-400;
+}
+
+.token.tag.attr-value.punctuation,
+.token.keyword {
+  @apply text-blue-400;
+}
+
+.token.selector.class,
+.token.atrule.property,
+.token.atrule.punctuation {
+  @apply text-purple-400;
+}
+
+.token.string,
+.token.atrule {
+  @apply text-green-300;
+}
+
+.token.atrule.rule {
+  @apply text-yellow-400;
+}
+
+.token.comment {
+  @apply text-gray-400;
+}

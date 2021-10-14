@@ -1,0 +1,15 @@
+## What is `@apply`?
+
+Here is our complicated button class from before as a component class:
+
+```css
+.btn {
+  @apply bg-indigo-600 text-white px-4 py-1 rounded hover:bg-indigo-800 active:bg-indigo-900 transform active:translate-y-1 transition hover:ring-2 hover:ring-indigo-400;
+}
+```
+
+We can then use this class like we would with Bootstrap:
+
+```jsx
+<div className="btn">Hello</div>
+```

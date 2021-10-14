@@ -1,0 +1,3 @@
+- There are eslint and prettier plugins to help with the "class name soup" that inevitably comes up with complicated components. These plugins will look for repeating classes (including variant usage) and strip them out. It will organize the classes by a configurable ordering.
+- There are packages available to introduce strong typing into the Tailwind ecosystem. After experimenting with these packages myself, I've come to the conclusion that it's not worth it.
+- The packages I've experimented with have trouble when introducing anything beyond the base level of Tailwind. For example, adding a new variant for the `backgroundColor` property, none of the packages I experimented with picked up this new variant and said it was invalid.

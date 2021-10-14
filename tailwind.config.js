@@ -7,7 +7,13 @@ module.exports = {
   variants: {
     extend: {
       backgroundColor: ["active"],
+      translate: ["active"],
+      ringColor: ["hover", "active"],
+      ringWidth: ["hover", "active"],
     },
   },
-  plugins: [],
+  plugins: [
+    require("@tailwindcss/typography"),
+    require("@tailwindcss/aspect-ratio"),
+  ],
 };

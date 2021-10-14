@@ -1,0 +1,12 @@
+## This is great, but what if...
+
+- I need dark mode support!
+  - Literally a one-line configuration change to enable. This adds a new variant `dark` to enable dark mode styles conditionally:
+  ```jsx
+  <div className="text-black dark:text-white" />
+  ```
+- I need this to work while hovered and focused but only in dark mode and...
+  - Tailwind supports variant stacking like this:
+  ```jsx
+  <div className="dark:focus:hover:text-white" />
+  ```

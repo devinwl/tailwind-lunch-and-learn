@@ -61,7 +61,7 @@ export default function Index({ notes, slides }: Props) {
     <div className="grid grid-cols-12 h-full">
       <div className="col-span-9">
         <Slide>
-          <div className="prose">
+          <div className="prose prose-2xl">
             <MDXRemote
               components={components}
               {...slides[activeSlide].source}
@@ -88,7 +88,7 @@ export default function Index({ notes, slides }: Props) {
               Unadvance
             </button>
           </div>
-          <div className="prose px-3">
+          <div className="prose prose-2xl px-3">
             <MDXRemote components={components} {...notes[activeSlide].source} />
           </div>
         </div>

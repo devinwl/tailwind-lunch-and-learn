@@ -8,19 +8,6 @@ body,
   height: 100%;
 }
 
-html {
-  font-size: 32px;
-}
-
-pre {
-  white-space: break-spaces;
-}
-
-.prose pre > pre {
-  margin: 0 !important;
-  padding: 0;
-}
-
 /* Weird hack because PrismJS keeps adding blank lines */
 .token-line:last-child > .token.plain {
   display: none;

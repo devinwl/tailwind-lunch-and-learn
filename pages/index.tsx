@@ -61,7 +61,7 @@ export default function Index({ notes, slides }: Props) {
     <div className="grid grid-cols-12 h-full">
       <div className="col-span-9">
         <Slide>
-          <div className="prose prose-2xl">
+          <div className="prose prose-2xl overflow-hidden">
             <MDXRemote
               components={components}
               {...slides[activeSlide].source}
